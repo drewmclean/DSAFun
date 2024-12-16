@@ -17,7 +17,7 @@ final class LinkedListTests: XCTestCase {
 
 		let listWithValues: LinkedList<Int> = .init(values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 		XCTAssertNotNil(listWithValues.head)
-		XCTAssertEqual(listWithValues.length(), 3)
+		XCTAssertEqual(listWithValues.length(), 11)
 		print(listWithValues.description)
     }
 
@@ -139,6 +139,22 @@ final class LinkedListTests: XCTestCase {
 		list.reverse()
 
 		XCTAssertEqual(list.getValues(), reversedValues)
+	}
+
+	func testIntersection() {
+		let shared: LinkedList<Int> = .init(values: [123,5,6])
+		guard let sharedHead = shared.head else {
+			XCTFail()
+			return
+		}
+
+		let listA: LinkedList<Int> = .init(values: [0,1,2,3])
+		listA.append(node: sharedHead)
+
+		let listB: LinkedList<Int> = .init(values: [10,11,12,13,14])
+		listB.append(node: sharedHead)
+
+		XCTAssertEqual(listA.intersectionValue(with: listB), 123)
 	}
 
 }

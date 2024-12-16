@@ -77,6 +77,20 @@ public class LinkedList<T : Equatable> {
 		current.next = Node(value: value)
 	}
 
+	func append(node: Node<T>) {
+		guard let head else {
+			head = node
+			return
+		}
+
+		var current = head
+		while let node = current.next {
+			current = node
+		}
+
+		current.next = node
+	}
+
 	func prepend(_ value: T) {
 		// Create a new node
 		let newNode = Node(value: value)
@@ -171,6 +185,39 @@ public class LinkedList<T : Equatable> {
 
 		head = prev
 	}
+
+	func intersectionValue(with list: LinkedList<T>) -> T? {
+		let m = self.length()
+		let n = list.length()
+
+		var currentA = self.head
+		var currentB = list.head
+
+		if n > m {
+			let a = currentA
+			currentA = currentB
+			currentB = a
+		}
+
+		let differenceInLength = abs(m - n)
+
+		for _ in 1...differenceInLength {
+			currentA = currentA?.next
+		}
+
+		for _ in 0..<m-1 {
+			if let valueA = currentA?.value,
+			   let valueB = currentB?.value,
+			   valueA == valueB {
+				return valueA
+			}
+			currentA = currentA?.next
+			currentB = currentB?.next
+		}
+
+		return nil
+	}
+
 }
 
 extension LinkedList : CustomStringConvertible {
